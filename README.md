@@ -82,7 +82,7 @@ The application image to docker is build with docker-maven-plugin do spotify (se
 
 **Images availiable in dockerhub**
 
-![Alt](/wp.png "Docker Hub")
+![](https://github.com//adriano-fonseca/waes-assigment/blob/master/src/main/prints/docker_hub.png "Docker Hub")
 
 
 
