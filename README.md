@@ -8,7 +8,7 @@ Build the .war file and deploy it, copying this file in the deployments folder i
 
 To build run the war
 
-``
+```
  mvn clean package`
 
 ```
@@ -112,11 +112,13 @@ To Integration Tests I am using Arquilian.
 To run Unit and Integration tests run the command bellow and the arquillian chameleon will download a wildfly container and will configure
 a H2 Database to run the integration tests.
 
-
 ```
+
 mvn clean install -Pwildfly-as-managed -P tests
 
 ```
+
+
  
 * The provided data needs to be diff-ed and the results shall be available on a third end point o <host>/v1/diff/<ID>
 
@@ -137,11 +139,15 @@ mvn clean install -Pwildfly-as-managed -P tests
 
 * If not of equal size just return:
 
+```
+
 {
     "STATUS": "DIFFERENT_LENGHTS"
 }
 
+```
 * If of same size provide insight in where the diffs are, for example:
+
 
 ```
 
