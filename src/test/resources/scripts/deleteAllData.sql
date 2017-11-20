@@ -1,1 +1,2 @@
-delete from DATA;;
+delete from DATA;
+delete from DIFF;

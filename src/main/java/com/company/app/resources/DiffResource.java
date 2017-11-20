@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response;
 import com.company.app.exception.RecordNotFoundException;
 import com.company.app.model.Data;
 import com.company.app.model.Diff;
+import com.company.app.model.Result;
 import com.company.app.model.Side;
 import com.company.app.services.DiffService;
 import com.company.app.util.UtilMessages;
@@ -24,6 +26,7 @@ import com.company.app.util.UtilMessages.Messages;
 
 @Path("diff/")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class DiffResource {
 
 	@Inject
@@ -45,8 +48,8 @@ public class DiffResource {
 	@GET
 	@Path("{idDiff}")
 	public Response compare(@PathParam("idDiff") Long idDiff) {
-		HashMap<String, String> diff = diffService.compare(idDiff);
-		return Response.ok().entity(diff).build();
+		Result res = diffService.compare(idDiff);
+		return Response.ok().entity(res).build();
 	}
 
 	@GET

@@ -12,6 +12,7 @@ import com.company.app.exception.MethodNotAllowedException;
 import com.company.app.exception.RecordNotFoundException;
 import com.company.app.model.Data;
 import com.company.app.model.Diff;
+import com.company.app.model.Result;
 import com.company.app.model.Side;
 import com.company.app.util.UtilMessages;
 import com.company.app.util.UtilMessages.Messages;
@@ -34,7 +35,7 @@ public class DiffService {
 			diffDAO.remove(diff);
 			response = Response.ok().entity(UtilMessages.getMessage("message", Messages.RECORD_REMOVED.getMsg())).build();
 		} catch (RecordNotFoundException e) {
-			response = Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(UtilMessages.getMessage("message", Messages.PUT_TO_UPDATE.getMsg())).build();
+			response = Response.status(Response.Status.BAD_REQUEST).entity(UtilMessages.getMessage("message", Messages.RECORD_NOT_FOUND.getMsg())).build();
 
 		}
 		return response;
@@ -57,7 +58,7 @@ public class DiffService {
 		return diffDAO.listDiffWithDataLazzy(new Diff());
 	}
 	
-	public HashMap<String, String> compare(Long idDiff) {
+	public Result compare(Long idDiff) {
 		return diffDAO.compare(idDiff);
 	}
 

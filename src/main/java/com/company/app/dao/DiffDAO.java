@@ -22,6 +22,8 @@ import com.company.app.exception.RecordNotFoundException;
 import com.company.app.infra.DAOImpl;
 import com.company.app.model.Data;
 import com.company.app.model.Diff;
+import com.company.app.model.Result;
+import com.company.app.model.ResultWithDifferences;
 import com.company.app.util.UtilBase64;
 import com.company.app.util.UtilMessages;
 import com.company.app.util.UtilMessages.Messages;
@@ -79,7 +81,7 @@ public class DiffDAO extends DAOImpl<Diff> {
 		}
 	}
 	
-	public HashMap<String, String> compare(Long idDiff) {
+	public Result compare(Long idDiff) {
 		Diff diff = getDataForDiff(idDiff);
 		
 		boolean readyToCompare = diff.getListData() != null && diff.getListData().size() == 2;
@@ -112,25 +114,28 @@ public class DiffDAO extends DAOImpl<Diff> {
 	 * 		   SAME_LENGHTS and DIFFERENCES_AT, this seconde an array with the positions 
 	 * 		   where the differences were found.
 	 */
-	HashMap<String, String> compare(String content1, String content2) {
+	Result compare(String content1, String content2) {
 		if(content1.length() != content2.length()) {
-			return UtilMessages.getMessage("result", "DIFFERENT_LENGHTS");
+			Result res = new Result();
+			res.setStatus("DIFFERENT_LENGHTS");
+			return res;
 		} else {
 			return getResultForContentsWithSameSize(content1, content2);
 		}
 	}
 
-	private HashMap<String, String> getResultForContentsWithSameSize(String content1, String content2) {
-		HashMap<String,String> result = null;
+	private Result getResultForContentsWithSameSize(String content1, String content2) {
+		//HashMap<String,String> result = null;
 		List<Integer> differences = getDifferences(content1, content2);
+		ResultWithDifferences res = new ResultWithDifferences();
 		
 		if(differences.isEmpty()){
-			result = UtilMessages.getMessage("result", "EQUALS");
+			res.setStatus("EQUALS");
 		}else {
-			result = UtilMessages.getMessage("result", "SAME_LENGHTS");
-			result.put("DIFFERENCES_AT", differences.toString());
+			res.setStatus("SAME_LENGHTS");
+			res.setDifferences(differences.toString());
 		}
-		return result;
+		return res;
 	}
 
 	private List<Integer> getDifferences(String content1, String content2) {
@@ -140,6 +145,8 @@ public class DiffDAO extends DAOImpl<Diff> {
 			byte[] dataDecoded2 = UtilBase64.decodeBase64(new String(content2.getBytes(), "UTF-8"));
 			differences = IntStream.range(0,dataDecoded1.length).filter(i -> dataDecoded1[i] !=  dataDecoded2[i]).map(x -> x).boxed().collect(Collectors.toList());
 		} catch (UnsupportedEncodingException e) {
+			throw new DiffExceptionException(UtilMessages.getMessage("message",Messages.DIFF_ERROR.getMsg()));
+		} catch (IllegalArgumentException e){
 			throw new DiffExceptionException(UtilMessages.getMessage("message",Messages.DIFF_ERROR.getMsg()));
 		}
 		return differences;

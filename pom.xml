@@ -108,6 +108,12 @@
 			<version>3.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.3</version>
+		</dependency>
+
 		<!-- CDI -->
 		<dependency>
 			<groupId>javax.enterprise</groupId>
@@ -173,7 +179,7 @@
 			<version>1.9.13</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
@@ -257,28 +263,29 @@
 				</configuration>
 			</plugin>
 			<plugin>
-                <groupId>com.sebastian-daschner</groupId>
-                <artifactId>jaxrs-analyzer-maven-plugin</artifactId>
-                <version>0.16</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>analyze-jaxrs</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <backend>swagger</backend>
-                    <deployedDomain></deployedDomain>
-                    <resourcesDir>Waes/apidocs</resourcesDir>
-                    <renderSwaggerTags>true</renderSwaggerTags>
-                    <swaggerTagsPathOffset>1</swaggerTagsPathOffset>
-                </configuration>
-            </plugin>
+				<groupId>com.sebastian-daschner</groupId>
+				<artifactId>jaxrs-analyzer-maven-plugin</artifactId>
+				<version>0.16</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>analyze-jaxrs</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<backend>swagger</backend>
+					<deployedDomain></deployedDomain>
+					<resourcesDir>Waes/apidocs</resourcesDir>
+					<renderSwaggerTags>true</renderSwaggerTags>
+					<swaggerTagsPathOffset>1</swaggerTagsPathOffset>
+				</configuration>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -426,7 +433,7 @@
 				</dependency>
 			</dependencies>
 		</profile>
-		
+
 		<profile>
 			<id>tests</id>
 			<build>
