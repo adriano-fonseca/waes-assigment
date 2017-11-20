@@ -3,8 +3,6 @@ package com.company.app.dao;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -22,8 +20,6 @@ import com.company.app.exception.RecordNotFoundException;
 import com.company.app.infra.DAOImpl;
 import com.company.app.model.Data;
 import com.company.app.model.Diff;
-import com.company.app.model.Result;
-import com.company.app.model.ResultWithDifferences;
 import com.company.app.util.UtilBase64;
 import com.company.app.util.UtilMessages;
 import com.company.app.util.UtilMessages.Messages;
@@ -81,7 +77,7 @@ public class DiffDAO extends DAOImpl<Diff> {
 		}
 	}
 	
-	public Result compare(Long idDiff) {
+	public HashMap<String, String> compare(Long idDiff) {
 		Diff diff = getDataForDiff(idDiff);
 		
 		boolean readyToCompare = diff.getListData() != null && diff.getListData().size() == 2;
@@ -114,26 +110,26 @@ public class DiffDAO extends DAOImpl<Diff> {
 	 * 		   SAME_LENGHTS and DIFFERENCES_AT, this seconde an array with the positions 
 	 * 		   where the differences were found.
 	 */
-	Result compare(String content1, String content2) {
+	HashMap<String, String> compare(String content1, String content2) {
 		if(content1.length() != content2.length()) {
-			Result res = new Result();
-			res.setStatus("DIFFERENT_LENGHTS");
+			HashMap<String, String> res = new HashMap<String, String>();
+			res.put("STATUS", "DIFFERENT_LENGHTS");
 			return res;
 		} else {
 			return getResultForContentsWithSameSize(content1, content2);
 		}
 	}
 
-	private Result getResultForContentsWithSameSize(String content1, String content2) {
+	private HashMap<String, String> getResultForContentsWithSameSize(String content1, String content2) {
 		//HashMap<String,String> result = null;
 		List<Integer> differences = getDifferences(content1, content2);
-		ResultWithDifferences res = new ResultWithDifferences();
+		HashMap<String, String> res = new HashMap<String, String>();
 		
 		if(differences.isEmpty()){
-			res.setStatus("EQUALS");
+			res.put("STATUS", "EQUALS");
 		}else {
-			res.setStatus("SAME_LENGHTS");
-			res.setDifferences(differences.toString());
+			res.put("STATUS", "SAME_LENGHTS");
+			res.put("DIFFERENCES", differences.toString());
 		}
 		return res;
 	}

@@ -1,0 +1,197 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Rest Test Github",
+		"_postman_id": "d0795405-3fe5-80b5-095e-f8365f63cf9c",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Diff",
+			"description": "",
+			"item": [
+				{
+					"name": "Create Left",
+					"request": {
+						"url": "http://localhost:8080/waes/v1/diff/2/left",
+						"method": "POST",
+						"header": [
+							{
+								"key": "passUser",
+								"value": "123456",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "idUser",
+								"value": "afonseca",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"d2Fcw==\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Right",
+					"request": {
+						"url": "http://localhost:8080/waes/v1/diff/2/right",
+						"method": "POST",
+						"header": [
+							{
+								"key": "passUser",
+								"value": "123456",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "idUser",
+								"value": "afonseca",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"d2FFcw==\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Left",
+					"request": {
+						"url": "http://localhost:8080/waes/v1/diff/2/left",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "passUser",
+								"value": "123456",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "idUser",
+								"value": "afonseca",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"abc\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Diff",
+					"request": {
+						"url": "http://localhost:8080/v1/diff/4",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "passUser",
+								"value": "123456",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "idUser",
+								"value": "afonseca",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"listData\": [\n        {\n            \"content\": \"xxx\",\n            \"idDiff\": 4\n        },\n        {\n            \"content\": \"zzz\",\n            \"idDiff\": 4\n            \n        }\n    ]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Compare",
+					"request": {
+						"url": "http://localhost:8080/waes/v1/diff/2",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Query",
+					"request": {
+						"url": "http://localhost:8080/waes/v1/diff/2/data",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "List Diffs",
+					"request": {
+						"url": "http://localhost:8080/waes/v1/diff/",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Diff",
+					"request": {
+						"url": "http://localhost:8080/waes/v1/diff/2",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "passUser",
+								"value": "123456",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "idUser",
+								"value": "afonseca",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

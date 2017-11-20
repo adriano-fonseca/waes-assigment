@@ -16,6 +16,7 @@
         "/diff": {
             "get": {
                 "consumes": [
+                    "application/json;charset=utf-8"
                 ],
                 "produces": [
                     "application/json;charset=utf-8"
@@ -40,6 +41,7 @@
         "/diff/{idDiff}": {
             "get": {
                 "consumes": [
+                    "application/json;charset=utf-8"
                 ],
                 "produces": [
                     "application/json;charset=utf-8"
@@ -65,6 +67,7 @@
             },
             "post": {
                 "consumes": [
+                    "application/json;charset=utf-8"
                 ],
                 "produces": [
                     "application/json;charset=utf-8"
@@ -98,6 +101,7 @@
             },
             "delete": {
                 "consumes": [
+                    "application/json;charset=utf-8"
                 ],
                 "produces": [
                     "application/json;charset=utf-8"
@@ -130,9 +134,46 @@
                 }
             }
         },
+        "/diff/{idDiff}/data": {
+            "get": {
+                "consumes": [
+                    "application/json;charset=utf-8"
+                ],
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "idDiff",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Diff"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "headers": {
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
         "/diff/{idDiff}/left": {
             "post": {
                 "consumes": [
+                    "application/json;charset=utf-8"
                 ],
                 "produces": [
                     "application/json;charset=utf-8"
@@ -176,6 +217,7 @@
         "/diff/{idDiff}/right": {
             "post": {
                 "consumes": [
+                    "application/json;charset=utf-8"
                 ],
                 "produces": [
                     "application/json;charset=utf-8"
@@ -207,41 +249,6 @@
                     },
                     "405": {
                         "description": "Method Not Allowed",
-                        "headers": {
-                        },
-                        "schema": {
-                            "type": "object"
-                        }
-                    }
-                }
-            }
-        },
-        "/diff/{idDiff}/show": {
-            "get": {
-                "consumes": [
-                ],
-                "produces": [
-                    "application/json;charset=utf-8"
-                ],
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "name": "idDiff",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "headers": {
-                        },
-                        "schema": {
-                            "$ref": "#/definitions/Diff"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
                         "headers": {
                         },
                         "schema": {

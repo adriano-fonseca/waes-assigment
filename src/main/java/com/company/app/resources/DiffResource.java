@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
 import com.company.app.exception.RecordNotFoundException;
 import com.company.app.model.Data;
 import com.company.app.model.Diff;
-import com.company.app.model.Result;
 import com.company.app.model.Side;
 import com.company.app.services.DiffService;
 import com.company.app.util.UtilMessages;
@@ -33,7 +32,7 @@ public class DiffResource {
 	DiffService diffService;
 
 	@GET
-	@Path("{idDiff}/show")
+	@Path("{idDiff}/data")
 	public Response show(@PathParam("idDiff") Long idDiff) {
 		Response response = null;
 		try {
@@ -48,7 +47,7 @@ public class DiffResource {
 	@GET
 	@Path("{idDiff}")
 	public Response compare(@PathParam("idDiff") Long idDiff) {
-		Result res = diffService.compare(idDiff);
+		HashMap<String, String> res = diffService.compare(idDiff);
 		return Response.ok().entity(res).build();
 	}
 
@@ -91,15 +90,15 @@ public class DiffResource {
 		return diffService.addDataForDiff(data, idDiff, Side.L);
 	}
 	
-	@PUT
-	@Path("{idDiff}/right")
-	public Response changeRight(Data data, @PathParam("idDiff") Long idDiff) {
-		return diffService.changeDataForDiff(data, idDiff, Side.R);
-	}
-
-	@PUT
-	@Path("{idDiff}/left")
-	public Response changeLeft(Data data, @PathParam("idDiff") Long idDiff) {
-		return diffService.changeDataForDiff(data, idDiff, Side.L);
-	}
+//	@PUT
+//	@Path("{idDiff}/right")
+//	public Response changeRight(Data data, @PathParam("idDiff") Long idDiff) {
+//		return diffService.changeDataForDiff(data, idDiff, Side.R);
+//	}
+//
+//	@PUT
+//	@Path("{idDiff}/left")
+//	public Response changeLeft(Data data, @PathParam("idDiff") Long idDiff) {
+//		return diffService.changeDataForDiff(data, idDiff, Side.L);
+//	}
 }

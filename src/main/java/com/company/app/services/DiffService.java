@@ -12,7 +12,6 @@ import com.company.app.exception.MethodNotAllowedException;
 import com.company.app.exception.RecordNotFoundException;
 import com.company.app.model.Data;
 import com.company.app.model.Diff;
-import com.company.app.model.Result;
 import com.company.app.model.Side;
 import com.company.app.util.UtilMessages;
 import com.company.app.util.UtilMessages.Messages;
@@ -58,7 +57,7 @@ public class DiffService {
 		return diffDAO.listDiffWithDataLazzy(new Diff());
 	}
 	
-	public Result compare(Long idDiff) {
+	public HashMap<String, String> compare(Long idDiff) {
 		return diffDAO.compare(idDiff);
 	}
 

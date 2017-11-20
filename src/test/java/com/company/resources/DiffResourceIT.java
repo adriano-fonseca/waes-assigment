@@ -2,6 +2,8 @@ package com.company.resources;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 import javax.ws.rs.core.Response;
 
@@ -19,8 +21,6 @@ import org.junit.runner.RunWith;
 
 import com.company.app.model.Data;
 import com.company.app.model.Diff;
-import com.company.app.model.Result;
-import com.company.app.model.ResultWithDifferences;
 import com.company.app.model.Side;
 import com.company.app.resources.DiffResource;
 
@@ -75,8 +75,8 @@ public class DiffResourceIT {
 		diff.getListData().add(right);
 		diffResource.addDiff(diff, 1L);
 		Response res = diffResource.compare(1L);
-		Result result = (Result) res.getEntity();
-		assertEquals("EQUALS", result.getStatus());
+		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();
+		assertEquals("EQUALS", result.get("STATUS"));
 	}
 
 	@Test
@@ -91,9 +91,8 @@ public class DiffResourceIT {
 		diff.getListData().add(right);
 		diffResource.addDiff(diff, 1L);
 		Response res = diffResource.compare(1L);
-		Result result = (Result) res.getEntity();
-		System.out.println(result);
-		assertEquals(result.getStatus(), "SAME_LENGHTS");
+		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();		System.out.println(result);
+		assertEquals("SAME_LENGHTS", result.get("STATUS"));
 	}
 
 	@Test
@@ -108,9 +107,9 @@ public class DiffResourceIT {
 		diff.getListData().add(right);
 		diffResource.addDiff(diff, 1L);
 		Response res = diffResource.compare(1L);
-		ResultWithDifferences result = (ResultWithDifferences) res.getEntity();
+		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();		System.out.println(result);
 		System.out.println(result);
-		assertEquals(result.getDifferences(), "[2]");
+		assertEquals("[2]", result.get("DIFFERENCES"));
 	}
 
 	@Test
@@ -125,9 +124,8 @@ public class DiffResourceIT {
 		diff.getListData().add(right);
 		diffResource.addDiff(diff, 1L);
 		Response res = diffResource.compare(1L);
-		ResultWithDifferences result = (ResultWithDifferences) res.getEntity();
-		System.out.println(result);
-		assertEquals(result.getDifferences(), "[0, 3, 6]");
+		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();
+		assertEquals("[0, 3, 6]", result.get("DIFFERENCES"));
 	}
 
 	@Test
@@ -140,9 +138,8 @@ public class DiffResourceIT {
 		diff.getListData().add(right);
 		diffResource.addDiff(diff, 1L);
 		Response res = diffResource.compare(1L);
-		Result result = (Result) res.getEntity();
-		System.out.println(result);
-		assertEquals(result.getStatus(), "DIFFERENT_LENGHTS");
+		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();
+		assertEquals("DIFFERENT_LENGHTS", result.get("STATUS"));
 	}
 
 }
