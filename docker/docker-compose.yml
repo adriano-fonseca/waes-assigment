@@ -1,0 +1,43 @@
+version: '3'
+services:
+
+  java-api:
+    image: adrianofonseca/waes:latest
+    ports:
+     - "8080:8080"
+     - "9990:9990"
+    networks:
+      - app
+    depends_on:
+      - postgres
+    deploy:
+     replicas: 1
+     update_config:
+       parallelism: 1
+       delay: 30s
+     restart_policy:
+       condition: on-failure 
+     labels: [info=backend]
+
+
+  postgres:
+      image: adrianofonseca/postgres:9.5
+      ports:
+          - "5432:5432"
+      networks:
+      - app
+      environment:
+          - DEBUG=false
+          - DB_USER=app
+          - DB_PASS=app
+          - DB_NAME=app
+      volumes:
+          -  /home/adr-fonseca/docker/docker-postgres/postgresql/:/var/lib/postgresql
+      deploy:
+        labels: [info=database]
+        placement:
+          constraints: [node.role == manager]
+
+networks:
+      app:
+

@@ -1,0 +1,468 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.company.app</groupId>
+	<artifactId>waes</artifactId>
+	<version>0.0.1</version>
+	<packaging>war</packaging>
+
+	<name>waes</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<version.persistence>1.0.0.Alpha7</version.persistence>
+		<version.arquillian_core>1.1.8.Final</version.arquillian_core>
+		<version.arquillian_cube>1.0.0.Alpha15</version.arquillian_cube>
+		<version.arquillian_chameleon>1.0.0.Alpha7</version.arquillian_chameleon>
+		<version.jboss.javaee-7_api>1.1.0.Beta1</version.jboss.javaee-7_api>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+		<powermock.version>1.6.3</powermock.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.jboss.arquillian</groupId>
+				<artifactId>arquillian-bom</artifactId>
+				<version>${version.arquillian_core}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-7.0</artifactId>
+				<version>${version.jboss.javaee-7_api}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+
+	<dependencies>
+		<!-- Arquilian Junit -->
+		<dependency>
+			<groupId>org.jboss.arquillian.junit</groupId>
+			<artifactId>arquillian-junit-container</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Arquillian extencions -->
+
+		<!-- Arquillian persistence(dbunit) -->
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-persistence-api</artifactId>
+			<version>${version.persistence}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.arquillian.extension</groupId>
+			<artifactId>arquillian-persistence-dbunit</artifactId>
+			<version>${version.persistence}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Unit Tests -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>${powermock.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Help Power Mock Com bytecodes in 1.7 version -->
+		<dependency>
+			<groupId>org.javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.18.2-GA</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- COMMONS LANG3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+		<!-- CDI -->
+		<dependency>
+			<groupId>javax.enterprise</groupId>
+			<artifactId>cdi-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<!-- Jaxrs -->
+		<dependency>
+			<groupId>org.jboss.spec.javax.ws.rs</groupId>
+			<artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.spec.javax.json</groupId>
+			<artifactId>jboss-json-api_1.0_spec</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- LOG4J -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.3</version>
+		</dependency>
+
+
+		<!-- Hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>5.0.3.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<scope>provided</scope>
+			<version>5.0.3.Final</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.jboss.spec/jboss-javaee-7.0 -->
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-7.0</artifactId>
+			<version>${version.jboss.javaee-7_api}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Json -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>1.9.13</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<!-- Default protocol Servelet no arquilian.xml -->
+		<dependency>
+			<groupId>org.jboss.arquillian.protocol</groupId>
+			<artifactId>arquillian-protocol-servlet</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<finalName>Waes</finalName>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.12</version>
+				<configuration>
+					<serverId>docker-hub</serverId>
+					<imageName>adrianofonseca/waes</imageName>
+
+					<!-- <serverId>docker-local</serverId> -->
+					<!-- <imageName>docker.adriano.local/app</imageName> -->
+					<baseImage>adrianofonseca/wildfly-base-image</baseImage>
+					<!-- <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint> -->
+					<!-- copy the service's jar file from target into the root directory 
+						of the image -->
+					<resources>
+						<resource>
+							<targetPath>/opt/jboss/wildfly/standalone/deployments</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.war</include>
+						</resource>
+					</resources>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+						<imageTag>latest</imageTag>
+					</imageTags>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.18.1</version>
+				<configuration>
+					<skipTests>false</skipTests>
+					<excludes>
+						<exclude>**/*IT.java</exclude>
+					</excludes>
+					<includes>
+						<include>**/*Test.java</include>
+					</includes>
+					<systemPropertyVariables>
+						<!-- Force Jersey to be used when RestEasy is auto-discovered. Jersey 
+							is required by docker-java -->
+						<javax.ws.rs.ext.RuntimeDelegate>org.glassfish.jersey.internal.RuntimeDelegateImpl</javax.ws.rs.ext.RuntimeDelegate>
+						<arquillian.launch>${launch}</arquillian.launch>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+			<plugin>
+                <groupId>com.sebastian-daschner</groupId>
+                <artifactId>jaxrs-analyzer-maven-plugin</artifactId>
+                <version>0.16</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>analyze-jaxrs</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <backend>swagger</backend>
+                    <deployedDomain></deployedDomain>
+                    <resourcesDir>Waes/apidocs</resourcesDir>
+                    <renderSwaggerTags>true</renderSwaggerTags>
+                    <swaggerTagsPathOffset>1</swaggerTagsPathOffset>
+                </configuration>
+            </plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.sebastian-daschner
+										</groupId>
+										<artifactId>
+											jaxrs-analyzer-maven-plugin
+										</artifactId>
+										<versionRange>
+											[0.16,)
+										</versionRange>
+										<goals>
+											<goal>analyze-jaxrs</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+
+	<profiles>
+		<profile>
+			<id>wildfly-as-managed</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<systemPropertyVariables>
+								<arquillian.launch>chameleon2</arquillian.launch>
+							</systemPropertyVariables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<arquillian.container.port>10090</arquillian.container.port>
+				<arquillian.container>managed</arquillian.container>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.arquillian.container</groupId>
+					<artifactId>arquillian-container-chameleon</artifactId>
+					<version>${version.arquillian_chameleon}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>wildfly-as-remote</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<systemPropertyVariables>
+								<arquillian.launch>chameleon2</arquillian.launch>
+							</systemPropertyVariables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<arquillian.container.port>9990</arquillian.container.port>
+				<arquillian.container>remote</arquillian.container>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.arquillian.container</groupId>
+					<artifactId>arquillian-container-chameleon</artifactId>
+					<version>${version.arquillian_chameleon}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+
+		<profile>
+			<id>wildfly-docker</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<configuration>
+							<systemPropertyVariables>
+								<arquillian.launch>wildfly-docker</arquillian.launch>
+							</systemPropertyVariables>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+			<properties>
+				<launch>wildfly-docker</launch>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.arquillian.cube</groupId>
+					<artifactId>arquillian-cube-docker</artifactId>
+					<version>${version.arquillian_cube}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.arquillian.container</groupId>
+					<artifactId>arquillian-container-chameleon</artifactId>
+					<version>${version.arquillian_chameleon}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>wildfly-docker-image</id>
+			<properties>
+				<launch>wildfly-docker-image</launch>
+			</properties>
+			<dependencies>
+				<dependency>
+					<groupId>org.arquillian.cube</groupId>
+					<artifactId>arquillian-cube-docker</artifactId>
+					<version>${version.arquillian_cube}</version>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.arquillian.cube</groupId>
+					<artifactId>arquillian-cube-containerless</artifactId>
+					<version>${version.arquillian_cube}</version>
+					<scope>test</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		
+		<profile>
+			<id>tests</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.16</version>
+						<configuration>
+							<excludes>
+								<exclude>**/*IT.java</exclude>
+							</excludes>
+						</configuration>
+						<executions>
+							<execution>
+								<id>after-package</id>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>test</goal>
+								</goals>
+								<configuration>
+									<skipTests>false</skipTests>
+									<runOrder>reversealphabetical</runOrder>
+									<includes>
+										<include>**/*IT.java</include>
+									</includes>
+									<excludes>
+										<exclude>**/*Test.java</exclude>
+									</excludes>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+	</profiles>
+</project>

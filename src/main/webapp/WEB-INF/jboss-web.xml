@@ -1,0 +1,3 @@
+<jboss-web>
+    <context-root>waes</context-root>
+</jboss-web>

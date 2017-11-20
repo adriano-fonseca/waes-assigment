@@ -1,0 +1,296 @@
+
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "waes"
+    },
+    "host": "",
+    "basePath": "/waes/v1",
+    "schemes": [
+        "http"
+    ],
+    "tags": [
+    ],
+    "paths": {
+        "/diff": {
+            "get": {
+                "consumes": [
+                ],
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                        },
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Diff"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/diff/{idDiff}": {
+            "get": {
+                "consumes": [
+                ],
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "idDiff",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "consumes": [
+                ],
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "idDiff",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Diff"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Diff"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "consumes": [
+                ],
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "idDiff",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "headers": {
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/diff/{idDiff}/left": {
+            "post": {
+                "consumes": [
+                ],
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "idDiff",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Data"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Diff"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "headers": {
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/diff/{idDiff}/right": {
+            "post": {
+                "consumes": [
+                ],
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "idDiff",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Data"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Diff"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "headers": {
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/diff/{idDiff}/show": {
+            "get": {
+                "consumes": [
+                ],
+                "produces": [
+                    "application/json;charset=utf-8"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "idDiff",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Diff"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "headers": {
+                        },
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Data": {
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "idData": {
+                    "type": "integer"
+                },
+                "idDiff": {
+                    "type": "integer"
+                },
+                "idEntity": {
+                    "type": "integer"
+                },
+                "side": {
+                    "type": "string",
+                    "enum": [
+                        "L",
+                        "R"
+                    ]
+                }
+            }
+        },
+        "Diff": {
+            "properties": {
+                "idDiff": {
+                    "type": "integer"
+                },
+                "idEntity": {
+                    "type": "integer"
+                },
+                "listData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Data"
+                    }
+                }
+            }
+        }
+    }
+}
