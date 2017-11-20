@@ -1,6 +1,6 @@
 # The architecture
 
-This project uses Maven 3.3 or higher and was developed using Java 8 through the JavaEE Framework. It was tested in a Wildfly 10, that have a Data Source called AppDS. There are two ways to run this application.
+This project uses maven 3.3 or higher and was developed using Java 8 through the JavaEE Framework. It was tested in a Wildfly 10, that have a Data Source called AppDS. There are two ways to run this application.
 
 **1** Running in a container Java Like WildFly or Jboss
 
@@ -95,22 +95,21 @@ I could have the v1 accessible on the '/' setting this information in the jboss-
 in Jboss server where each application raises a context. I did that for make a maven plugin (jaxrs-analyzer-maven-plugin), work properly and automatically 
 to generate a documentation to API using Swagger.
 
-That documentation are availiable in 
+That documentation are available in **http://<host>:8080/waes/apidocs**
 
-**http://<host>:8080/waes/apidocs**
+![Alt](https://github.com/adriano-fonseca/waes-assigment/blob/master/src/main/prints/swaggerUI.png?raw=true "Swagger UI")
 
 So, to access the endpoints you need to hit:
 
  **http://<hots>:8080/waes/v1/diff/<ID>/left**
  **http://<hots>:8080/waes/v1/diff/<ID>/right**
  
-# The test enviroment 
+# The test environment 
 
-To Unit Test I am runnin Junit With Mockito and Powermock.
-To Integration Tests I am using Arquilian.
-
-To run Unit and Integration tests run the command bellow and the arquillian chameleon will download a wildfly container and will configure
+To Unit Test I am running Junit With Mockito and Powermock to test static classes.
+To Integration Tests I am using Arquilian, to run Unit and Integration tests run the command bellow and the Arquillian chameleon will download a Wildfly container and will configure
 a H2 Database to run the integration tests.
+
 
 ```
 
@@ -159,12 +158,11 @@ mvn clean install -Pwildfly-as-managed -P tests
 ```
 
 
+# Assumptions
 
-* Make assumptions in the implementation explicit, choices are good but need to be
-communicated
 
-There is mpre the one way to approach the problem, the simplest would be have just one entity (Diff), that will have to binary data (left and right). 
-Assuming that this "API" Will continue to evolve I decide by one alternative approach to have an entity called Diff that have relationships with
+There are more than one way to approach the problem, the simplest would be have just one entity (Diff), that will have to binary data (left and right). 
+Assuming tha this "API" Will continue to evolve I decide by one alternative approach to have an entity called Diff that have relationships with
 another entity called Data. I chose this approach, because having this data separation would be simple to introduce another entity between this two, that
 could establish a relationship among them, doing that we could have diff that combine datas already persisted. For example:
 
@@ -174,7 +172,7 @@ Diff(3) compares Data(1) and Data(3)
 
 Of course this is an improvement suggestion. Currently we are on the middle of the path, but we could implement that with litle affort. 
 In Order to persue the HATEOS level 2 at leaest a try to keep the conventions about the HTTP Verbs, to use post to create data, delete to remove and get
-to retrieve them. When some change in Data is tried using POST The sistem generate a HTTP 405 (method not allowed). Therefore, a nice improvement would be 
+to retrieve them. When some change in Data is tried using POST The system generate a HTTP 405 (method not allowed). Therefore, a nice improvement would be 
 implement the endpoints to update left and right data.
 
 
@@ -183,3 +181,8 @@ implement the endpoints to update left and right data.
 **DELETE** Diff - Sending DELETE HTTP Verb to  **http://<hots>:8080/waes/v1/diff/<ID>**, will dele Diff with left and right data;
 **GET** All Diffs  - Sending GET HTTP Verb to  **http://<hots>:8080/waes/v1/diff/>**
 **GET** Data from a specific Diff - **http://<hots>:8080/waes/v1/diff/<ID>/Data>**
+
+# Interacting with API
+
+There are two ways to do data. Usin the Swager in  **http://<host>:8080/waes/apidocs** or Using some Http Client. I suggest to use Postman, you can find
+a export from it with the endpoints and some initial data [here](https://github.com/adriano-fonseca/waes-assigment/blob/master/src/main/postman/diff_waes_postman.json) 
