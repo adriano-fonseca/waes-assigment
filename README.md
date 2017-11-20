@@ -166,23 +166,43 @@ Assuming tha this "API" Will continue to evolve I decide by one alternative appr
 another entity called Data. I chose this approach, because having this data separation would be simple to introduce another entity between this two, that
 could establish a relationship among them, doing that we could have diff that combine datas already persisted. For example:
 
+```
 Diff(1) compares Data(1) and Data(2)
 Diff(2) compares Data(2) and Data(3)
 Diff(3) compares Data(1) and Data(3)
+```
 
 Of course this is an improvement suggestion. Currently we are on the middle of the path, but we could implement that with litle affort. 
-In Order to persue the HATEOS level 2 at leaest a try to keep the conventions about the HTTP Verbs, to use post to create data, delete to remove and get
-to retrieve them. When some change in Data is tried using POST The system generate a HTTP 405 (method not allowed). Therefore, a nice improvement would be 
-implement the endpoints to update left and right data.
+
 
 
 # Extras
+
+## About API
 
 **DELETE** Diff - Sending DELETE HTTP Verb to  **http://<hots>:8080/waes/v1/diff/<ID>**, will dele Diff with left and right data;
 **GET** All Diffs  - Sending GET HTTP Verb to  **http://<hots>:8080/waes/v1/diff/>**
 **GET** Data from a specific Diff - **http://<hots>:8080/waes/v1/diff/<ID>/Data>**
 
+## About architecture
+
+This project are Ready to be a multi-stage pipeline and enable to produce the Java artefact and The docker image to this App, this brings huge 
+advantages to scale the application horizontally. The docker compose is written in the version 3, which makes possible deploy this application as
+stack and easelly scale up and down.  
+
 # Interacting with API
 
 There are two ways to do data. Usin the Swager in  **http://<host>:8080/waes/apidocs** or Using some Http Client. I suggest to use Postman, you can find
 a export from it with the endpoints and some initial data [here](https://github.com/adriano-fonseca/waes-assigment/blob/master/src/main/postman/diff_waes_postman.json) 
+
+
+# improvements
+
+In Order to pursue the HATEOS level 2 at least, I try to keep the conventions about the HTTP Verbs, to use post to create data, delete to remove and get
+to retrieve them. When some change in Data is tried using POST The system generate a HTTP 405 (method not allowed). Therefore, a nice improvement would be 
+implement the endpoints to update left and right data. 
+From the architecture view I think that would be interesting to put a NGINX as reverse proxy to the application providing https and the requirements about to have a url in the format <host>/v1/diff/<ID>/. Another thing to be improved is the security a JWT could be applied to authenticate the requests to the API.
+
+# disclaimers
+
+I know that documentaion and test could be more extensive, however the time was a little tight to everything that I would like to do.
