@@ -125,9 +125,10 @@ That documentation are available in **http://<host>:8080/waes/apidocs**
 
 So, to access the endpoints you need to hit:
 
+```
  **http://<hots>:8080/waes/v1/diff/<ID>/left**
  **http://<hots>:8080/waes/v1/diff/<ID>/right**
- 
+```
 # The test environment 
 
 To Unit Test I am running Junit With Mockito and Powermock to test static classes.
