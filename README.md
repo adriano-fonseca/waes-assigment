@@ -32,7 +32,7 @@ a **docker-compose.yml**, that uses some images that I have build and pushed to 
 
 
 
-```
+```yaml
 version: '3'
 services:
 
@@ -79,6 +79,32 @@ networks:
 ```
 
 The application image to docker is build with docker-maven-plugin do spotify (see on the pom.xml)
+
+```xml
+
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.12</version>
+				<configuration>
+					<serverId>docker-hub</serverId>
+					<imageName>adrianofonseca/waes</imageName>
+					<baseImage>adrianofonseca/wildfly-base-image</baseImage>
+					<resources>
+						<resource>
+							<targetPath>/opt/jboss/wildfly/standalone/deployments</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.war</include>
+						</resource>
+					</resources>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+						<imageTag>latest</imageTag>
+					</imageTags>
+				</configuration>
+			</plugin>
+
+```
 
 **Images availiable in dockerhub**
 
@@ -129,7 +155,7 @@ mvn clean install -Pwildfly-as-managed -P tests
 * If equal return:
 
 
-```
+```json
 {
     "status": "EQUALS",
 }
@@ -138,7 +164,7 @@ mvn clean install -Pwildfly-as-managed -P tests
 
 * If not of equal size just return:
 
-```
+```json
 
 {
     "STATUS": "DIFFERENT_LENGHTS"
@@ -148,7 +174,7 @@ mvn clean install -Pwildfly-as-managed -P tests
 * If of same size provide insight in where the diffs are, for example:
 
 
-```
+```json
 
 {
     "STATUS": "SAME_LENGHTS",
