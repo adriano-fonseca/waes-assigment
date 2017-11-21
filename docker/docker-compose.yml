@@ -32,7 +32,7 @@ services:
           - DB_PASS=app
           - DB_NAME=app
       volumes:
-          -  /home/adr-fonseca/docker/docker-postgres/postgresql/:/var/lib/postgresql
+          -  /opt/docker/docker-postgres/postgresql/:/var/lib/postgresql
       deploy:
         labels: [info=database]
         placement:
