@@ -9,7 +9,7 @@ Build the .war file and deploy it, copying this file in the deployments folder i
 To build run the war
 
 ```
- mvn clean package`
+ mvn clean package
 
 ```
 PS: You will need to have Data Source AppDS set in your server.
@@ -229,13 +229,13 @@ a export from it with the endpoints and some initial data [here](https://github.
 
 
 
-# improvements
+# Improvements
 
 In Order to pursue the HATEOS level 2 at least, I try to keep the conventions about the HTTP Verbs, to use post to create data, delete to remove and get
 to retrieve them. When some change in Data is tried using POST The system generate a HTTP 405 (method not allowed). Therefore, a nice improvement would be 
 implement the endpoints to update left and right data. 
 From the architecture view I think that would be interesting to put a NGINX as reverse proxy to the application providing https and the requirements about to have a url in the format <host>/v1/diff/<ID>/. Another thing to be improved is the security a JWT could be applied to authenticate the requests to the API.
 
-# disclaimers
+# Disclaimers
 
 I know that documentaion and test could be more extensive, however the time was a little tight to everything that I would like to do.
