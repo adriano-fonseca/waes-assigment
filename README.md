@@ -9,8 +9,7 @@ Build the .war file and deploy it, copying this file in the deployments folder i
 To build run the war
 
 ```
- mvn clean package
-
+mvn clean package
 ```
 PS: You will need to have Data Source AppDS set in your server.
 
@@ -22,7 +21,6 @@ Just copy the docker-compose.yml to some directory on yout machine and run:
 
 ```
  docker-compose up
-
 ```
 
 PS: You will need to have docker 1.13 or Higher and docker-compose 1.10 or higher.
@@ -82,27 +80,27 @@ The application image to docker is build with docker-maven-plugin do spotify (se
 
 ```xml
 
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.12</version>
-				<configuration>
-					<serverId>docker-hub</serverId>
-					<imageName>adrianofonseca/waes</imageName>
-					<baseImage>adrianofonseca/wildfly-base-image</baseImage>
-					<resources>
-						<resource>
-							<targetPath>/opt/jboss/wildfly/standalone/deployments</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.war</include>
-						</resource>
-					</resources>
-					<imageTags>
-						<imageTag>${project.version}</imageTag>
-						<imageTag>latest</imageTag>
-					</imageTags>
-				</configuration>
-			</plugin>
+	<plugin>
+		<groupId>com.spotify</groupId>
+		<artifactId>docker-maven-plugin</artifactId>
+		<version>0.4.12</version>
+		<configuration>
+			<serverId>docker-hub</serverId>
+			<imageName>adrianofonseca/waes</imageName>
+			<baseImage>adrianofonseca/wildfly-base-image</baseImage>
+			<resources>
+				<resource>
+					<targetPath>/opt/jboss/wildfly/standalone/deployments</targetPath>
+					<directory>${project.build.directory}</directory>
+					<include>${project.build.finalName}.war</include>
+				</resource>
+			</resources>
+			<imageTags>
+				<imageTag>${project.version}</imageTag>
+				<imageTag>latest</imageTag>
+			</imageTags>
+		</configuration>
+	</plugin>
 
 ```
 
