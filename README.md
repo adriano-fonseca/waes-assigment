@@ -126,8 +126,8 @@ That documentation are available in **http://<host>:8080/waes/apidocs**
 So, to access the endpoints you need to hit:
 
 ```
- **http://<hots>:8080/waes/v1/diff/<ID>/left**
- **http://<hots>:8080/waes/v1/diff/<ID>/right**
+ http://<hots>:8080/waes/v1/diff/<ID>/left
+ http://<hots>:8080/waes/v1/diff/<ID>/right
 ```
 # The test environment 
 
@@ -206,11 +206,9 @@ Of course this is an improvement suggestion. Currently we are on the middle of t
 ## About API
 
 ```
-
-**DELETE** Diff - Sending DELETE HTTP Verb to  **http://<hots>:8080/waes/v1/diff/<ID>**
-**GET** All Diffs  - Sending GET HTTP Verb to  **http://<hots>:8080/waes/v1/diff/>**
-**GET** Data from a specific Diff - **http://<hots>:8080/waes/v1/diff/<ID>/Data>**
-
+DELETE Diff - Sending DELETE HTTP Verb to  http://<hots>:8080/waes/v1/diff/<ID>
+GET All Diffs  - Sending GET HTTP Verb to  http://<hots>:8080/waes/v1/diff/>
+GET Data from a specific Diff - http://<hots>:8080/waes/v1/diff/<ID>/Data>
 ```
 
 ## About architecture
