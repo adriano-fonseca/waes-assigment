@@ -195,6 +195,9 @@ stack and easelly scale up and down.
 There are two ways to do data. Usin the Swager in  **http://<host>:8080/waes/apidocs** or Using some Http Client. I suggest to use Postman, you can find
 a export from it with the endpoints and some initial data [here](https://github.com/adriano-fonseca/waes-assigment/blob/master/src/main/postman/diff_waes_postman.json) 
 
+![Alt](https://github.com/adriano-fonseca/waes-assigment/blob/master/src/main/prints/postman.png?raw=true "Postman")
+
+
 
 # improvements
 
