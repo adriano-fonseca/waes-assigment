@@ -6,18 +6,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
+import org.hibernate.proxy.HibernateProxy;
+
+import com.company.app.exception.DAOException;
 import com.company.app.exception.DiffExceptionException;
 import com.company.app.exception.InsufficientDataException;
 import com.company.app.exception.InvalidBase64Encode;
 import com.company.app.exception.RecordNotFoundException;
-import com.company.app.infra.DAOImpl;
 import com.company.app.model.Data;
 import com.company.app.model.Diff;
 import com.company.app.util.UtilBase64;
@@ -25,18 +27,22 @@ import com.company.app.util.UtilMessages;
 import com.company.app.util.UtilMessages.Messages;
 
 @Stateless
-public class DiffDAO extends DAOImpl<Diff> {
+public class DiffDAO {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@Override
 	public Diff add(Diff t) {
 		if(!isValidBase64Content(t.getListData())){
 			throw new InvalidBase64Encode(UtilMessages.getMessage("message", Messages.INVALID_BASE64_ENCODE.getMsg()));
 		}
 		
-		return super.add(t);
+			if (entityManager.contains(t)) {
+				throw new RuntimeException("Trying add an object already menaged.");
+			}
+			entityManager.persist(t);
+			entityManager.flush();
+			return t;
 	}
 
 	/**
@@ -52,6 +58,66 @@ public class DiffDAO extends DAOImpl<Diff> {
 			return nrMatchs == list.size();
 		}
 	}
+	
+	public Diff remove(Diff diff) {
+		diff = this.find(diff);
+		if (diff == null) {
+			throw new RecordNotFoundException(UtilMessages.getMessage("message", UtilMessages.Messages.RECORD_NOT_FOUND.getMsg()));
+		} else {
+			entityManager.remove(diff);
+			entityManager.flush();
+		}
+		return diff;
+	}
+	
+	public Diff change(Diff t) {
+		HashMap<String, String> msg = null;
+		try {
+			Diff queryBean = find(t);
+			if (queryBean == null) {
+				msg = new HashMap<String, String>();
+				msg.put("message", "Record not found!");
+				throw new RecordNotFoundException(msg);
+			}
+		} catch (DAOException e) {
+			msg.put("message", "Record not found!");
+			throw new RecordNotFoundException(msg);
+		}
+
+		Diff managed = entityManager.merge(t);
+		entityManager.flush();
+		return managed;
+	}
+	
+	
+	/**
+	 * 
+	 * @param diff
+	 * @return find diff by id
+	 */
+	public Diff find(Diff diff) {
+		Diff entityReturned = entityManager.find(Diff.class, diff.getIdDiff());
+		HashMap<String, String> msg = null;
+
+		if (entityReturned == null) {
+			msg = new HashMap<String, String>();
+			msg.put("message", "Record not found!");
+			if (msg != null) {
+				throw new RecordNotFoundException(msg);
+			}
+		}
+		return entityReturned;
+	}
+	/**
+	 * 
+	 * @param diff
+	 * @return return all diffs
+	 */
+  final public List<Diff> list(Diff diff) {
+  	TypedQuery<Diff> q =  entityManager.createQuery("select t from SimpleEntity t", Diff.class);
+  	return q.getResultList();
+  }
+
 
 	/**
 	 * 
@@ -62,11 +128,6 @@ public class DiffDAO extends DAOImpl<Diff> {
 		return list.stream().map(data -> UtilBase64.isValidBase64Encode(data.getContent())).count();
 	}
 
-	@PostConstruct
-	public void init() {
-		super.init(entityManager);
-	}
-	
 	public Diff findByIdFetchData(Long id){
 		try{
 			Query query = entityManager.createQuery("SELECT d FROM Diff d JOIN FETCH d.listData WHERE d.idDiff =:id");
@@ -77,6 +138,11 @@ public class DiffDAO extends DAOImpl<Diff> {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param idDiff
+	 * @return return diff's result
+	 */
 	public HashMap<String, String> compare(Long idDiff) {
 		Diff diff = getDataForDiff(idDiff);
 		
@@ -86,6 +152,7 @@ public class DiffDAO extends DAOImpl<Diff> {
 		} 
 		return compare(diff.getListData().get(0).getContent(),  diff.getListData().get(1).getContent());
 	}
+	
 	/**
 	 * 
 	 * @param idDiff
@@ -107,22 +174,33 @@ public class DiffDAO extends DAOImpl<Diff> {
 	 * @param content2
 	 * @return The method returns DIFFERENT_LENGHTS to different content's size. 
 	 * 		   EQUALS if they are exactly the same (size and content)
-	 * 		   SAME_LENGHTS and DIFFERENCES_AT, this seconde an array with the positions 
+	 * 		   SAME_LENGHTS and DIFFERENCES_AT, this second an array with the positions 
 	 * 		   where the differences were found.
 	 */
 	HashMap<String, String> compare(String content1, String content2) {
-		if(content1.length() != content2.length()) {
+		try {
+			byte[] dataDecoded1 = UtilBase64.decodeBase64(new String(content1.getBytes(), "UTF-8"));
+			byte[] dataDecoded2 = UtilBase64.decodeBase64(new String(content2.getBytes(), "UTF-8"));
+			return getResultBase64Comparantion(dataDecoded1, dataDecoded2);
+		} catch (UnsupportedEncodingException e) {
+			throw new DiffExceptionException(UtilMessages.getMessage("message",Messages.DIFF_ERROR.getMsg()));
+		} catch (IllegalArgumentException e){
+			throw new DiffExceptionException(UtilMessages.getMessage("message",Messages.DIFF_ERROR.getMsg()));
+		}
+	}
+
+	private HashMap<String, String> getResultBase64Comparantion(byte[] dataDecoded1, byte[] dataDecoded2) {
+		if(dataDecoded1.length != dataDecoded2.length) {
 			HashMap<String, String> res = new HashMap<String, String>();
 			res.put("STATUS", "DIFFERENT_LENGHTS");
 			return res;
 		} else {
-			return getResultForContentsWithSameSize(content1, content2);
+			return getResultForContentsWithSameSize(dataDecoded1, dataDecoded2);
 		}
 	}
 
-	private HashMap<String, String> getResultForContentsWithSameSize(String content1, String content2) {
-		//HashMap<String,String> result = null;
-		List<Integer> differences = getDifferences(content1, content2);
+	private HashMap<String, String> getResultForContentsWithSameSize(byte[] dataDecoded1, byte[] dataDecoded2) {
+		List<Integer> differences = getDifferences(dataDecoded1, dataDecoded2);
 		HashMap<String, String> res = new HashMap<String, String>();
 		
 		if(differences.isEmpty()){
@@ -134,17 +212,9 @@ public class DiffDAO extends DAOImpl<Diff> {
 		return res;
 	}
 
-	private List<Integer> getDifferences(String content1, String content2) {
+	private List<Integer> getDifferences(byte[] dataDecoded1, byte[] dataDecoded2) {
 		List<Integer> differences = null;
-		try {
-			byte[] dataDecoded1 = UtilBase64.decodeBase64(new String(content1.getBytes(), "UTF-8"));
-			byte[] dataDecoded2 = UtilBase64.decodeBase64(new String(content2.getBytes(), "UTF-8"));
-			differences = IntStream.range(0,dataDecoded1.length).filter(i -> dataDecoded1[i] !=  dataDecoded2[i]).map(x -> x).boxed().collect(Collectors.toList());
-		} catch (UnsupportedEncodingException e) {
-			throw new DiffExceptionException(UtilMessages.getMessage("message",Messages.DIFF_ERROR.getMsg()));
-		} catch (IllegalArgumentException e){
-			throw new DiffExceptionException(UtilMessages.getMessage("message",Messages.DIFF_ERROR.getMsg()));
-		}
+		differences = IntStream.range(0,dataDecoded1.length).filter(i -> dataDecoded1[i] !=  dataDecoded2[i]).map(x -> x).boxed().collect(Collectors.toList());
 		return differences;
 	}
 

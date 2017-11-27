@@ -44,11 +44,6 @@ public class DiffResourceIT {
 				.addAsResource("h2-test-persistence.xml", "META-INF/persistence.xml");
 	}
 
-	@Before
-	public void cleanStudentData() {
-		System.out.println("always before a test method");
-	}
-
 	@Test
 	@ApplyScriptAfter("deleteAllData.sql")
 	public void testeAddLeft() {
@@ -108,13 +103,28 @@ public class DiffResourceIT {
 		diffResource.addDiff(diff, 1L);
 		Response res = diffResource.compare(1L);
 		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();		System.out.println(result);
-		System.out.println(result);
+		assertEquals("[2]", result.get("DIFFERENCES"));
+	}
+	
+	@Test
+	@ApplyScriptAfter("deleteAllData.sql")
+	public void shouldFailIfDifferencesNotMatch2() {
+		Diff diff = new Diff(1L);
+		// waes
+		Data right = new Data("d2Flcw==", 1L, Side.R);
+		// waEs
+		Data left = new Data("d2FFcw==", 1L, Side.L);
+		diff.getListData().add(left);
+		diff.getListData().add(right);
+		diffResource.addDiff(diff, 1L);
+		Response res = diffResource.compare(1L);
+		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();		System.out.println(result);
 		assertEquals("[2]", result.get("DIFFERENCES"));
 	}
 
 	@Test
 	@ApplyScriptAfter("deleteAllData.sql")
-	public void shouldFailIfDifferencesNotMatch2() {
+	public void shouldFailIfDifferencesNotMatch3() {
 		Diff diff = new Diff(1L);
 		// AdrIanO
 		Data left = new Data("QWRySWFuTw==", 1L, Side.L);
@@ -126,6 +136,38 @@ public class DiffResourceIT {
 		Response res = diffResource.compare(1L);
 		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();
 		assertEquals("[0, 3, 6]", result.get("DIFFERENCES"));
+	}
+	
+	@Test
+	@ApplyScriptAfter("deleteAllData.sql")
+	public void shouldFailIfDoesNotDetectDifferentLenght() {
+		Diff diff = new Diff(1L);
+		// diego maradona
+		Data left = new Data("ZGllZ28gbWFyYWRvbmE=", 1L, Side.L);
+		// diego maradon
+		Data right = new Data("ZGllZ28gbWFyYWRvbg==", 1L, Side.R);
+		diff.getListData().add(left);
+		diff.getListData().add(right);
+		diffResource.addDiff(diff, 1L);
+		Response res = diffResource.compare(1L);
+		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();
+		assertEquals("DIFFERENT_LENGHTS", result.get("STATUS"));
+	}
+	
+	@Test
+	@ApplyScriptAfter("deleteAllData.sql")
+	public void shouldFailIfDoesNotDetectDifferentLenght2() {
+		Diff diff = new Diff(1L);
+		// diego maradona
+		Data right = new Data("ZGllZ28gbWFyYWRvbmE=", 1L, Side.R);
+		// diego maradon
+		Data left = new Data("ZGllZ28gbWFyYWRvbg==", 1L, Side.L);
+		diff.getListData().add(left);
+		diff.getListData().add(right);
+		diffResource.addDiff(diff, 1L);
+		Response res = diffResource.compare(1L);
+		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();
+		assertEquals("DIFFERENT_LENGHTS", result.get("STATUS"));
 	}
 
 	@Test
@@ -141,5 +183,7 @@ public class DiffResourceIT {
 		HashMap<String, String> result = (HashMap<String, String>) res.getEntity();
 		assertEquals("DIFFERENT_LENGHTS", result.get("STATUS"));
 	}
+	
+	
 
 }

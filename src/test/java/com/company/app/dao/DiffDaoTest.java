@@ -56,25 +56,6 @@ public class DiffDaoTest {
 	  
 	  this.dataValid3.add(d3);
 	  this.dataValid3.add(d4);
-//    turmaED.setCursoED(new CursoED());
-//    turmaED.setCalendarioEstabED(new CalendarioEstabED());
-//    turmaED.getCalendarioEstabED().setNroIntDuracCal(DuracaoCalendario.ANUAL.getId());
-    
-   // doNothing().when(diffResource).addDiff(any(Diff.class), any(Long.class));
-    
-    //Mockando Classe estatica com powermock
-    //PowerMockito.mockStatic(UtilUsuario.class);
-    //PowerMockito.when(UtilUsuario.verificaPermissao(any(TipoOperacao.class), any(Integer.class))).thenReturn(true);
-    
-    //Mockando find chamado indiretamente por alguns metodos da RN
-//    doAnswer(new Answer<Diff>() {
-//      @Override
-//      public Diff answer(InvocationOnMock invocation) throws Throwable {
-//      	Diff t = new Diff();
-//        return t;
-//      }
-//    }).when(diffDAO).find(any(Diff.class));
-    
   }
   
   @Test
@@ -83,7 +64,6 @@ public class DiffDaoTest {
 	  assertFalse(diffDAO.isValidBase64Content(data));
   }
   
-  //TODO: Tests failing I don know why
   @Test
   public void shouldFailIfDataWasValid(){
 	  boolean asnwer = diffDAO.isValidBase64Content(dataValid);
@@ -120,36 +100,5 @@ public class DiffDaoTest {
 	  doThrow(new InsufficientDataException(new HashMap<String, String>())).when(diffDAO).findByIdFetchData(any(Long.class));
 	  diffDAO.compare(1L);
   }
-  
-//  @Test	
-//  public void deveFalharSeTurmaMatriculaPorDisciplina() {
-//    //  create mock
-////    TurmaRN turmaRN = Mockito.mock(TurmaRN.class);
-//  	 //Mockando find chamado indiretamente por alguns metodos da RN
-//    doAnswer(new Answer<Student>() {
-//      @Override
-//      public Student answer(InvocationOnMock invocation) throws Throwable {
-//      	Student t = new Student();
-//      	t.setName("Adriano");
-//        return t;
-//      }
-//    }).when(studentDAO).find(any(Student.class));
-//
-//    // use mock in test....
-//    Student student = studentDAO.find(new Student());
-//    assertEquals(student.getName(), "Adriano");
-//  }
-  
-//  @Test
-//  public void deveFalharSeCursoDiferenteDeNulo() {
-//    turmaED.setCursoED(null);
-//    try{
-//    TurmaQuadroDTO turmaQuadro = new TurmaQuadroDTO();
-//    assertEquals(false,turmaRN.isValidaHomologacao(turmaED, turmaQuadro));
-//    fail();
-//    }catch(RNException rne){
-//      assertEquals(rne.getMessage(), "Turma ou Curso da Turma n�o definido.");
-//    }
-//  }
   
 }
