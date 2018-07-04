@@ -8,8 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This classes provise some operation to Base64 data
- * @author adriano
+ * This classes provide some operation to Base64 data
+ * @author adriano-fonseca
  *
  */
 public class UtilBase64 {
@@ -34,7 +34,7 @@ public class UtilBase64 {
 	/**
 	 * @param textEncode
 	 * @param charset
-	 * @return string in a charset received that containts the text decode
+	 * @return byte array  that contains the the text decoded
 	 */
 	public static byte[] decodeBase64(String textEncoded, String charset){
 		byte[] array = null;

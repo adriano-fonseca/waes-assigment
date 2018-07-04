@@ -18,7 +18,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "DIFF")
-@JsonIgnoreProperties({ "listaStudentSchoolGroup", "id"})
+@JsonIgnoreProperties({ "listData", "id"})
 public class Diff extends BaseEntity<Long> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
